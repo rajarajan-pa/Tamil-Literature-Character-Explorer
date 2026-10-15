@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>தமிழ் இலக்கியக் கதாபாத்திரங்கள் | Character Explorer</title>
+<style>
+:root{--wine:#54251f;--gold:#c9a66b;--cream:#f8f1e5;--ink:#302019;--muted:#765d50}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:"Noto Sans Tamil","Latha",Arial,sans-serif}
+header{background:linear-gradient(135deg,#3b1715,#71372b);color:#fff1cf;padding:44px 18px;text-align:center;border-bottom:5px solid var(--gold)}
+header .eyebrow{letter-spacing:2px;font-size:12px;text-transform:uppercase;color:#e5c98f}
+header h1{font-size:clamp(25px,4vw,42px);margin:12px 0}header p{line-height:1.8;margin:6px auto;max-width:760px}
+main{max-width:1150px;margin:auto;padding:24px 18px 45px}.intro{display:flex;gap:12px;align-items:end;justify-content:space-between;flex-wrap:wrap}
+h2{color:var(--wine)}.controls{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin:20px 0}
+input,select{width:100%;padding:13px;border:1px solid #cdb895;border-radius:9px;background:#fffdf8;font-size:16px;color:var(--ink)}
+#count{color:var(--muted);font-size:14px;margin-bottom:15px}
+#cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:16px}
+.card{background:#fffdf8;border:1px solid #e0cfb2;border-radius:13px;padding:19px;box-shadow:0 5px 18px #4d2a160d;display:flex;flex-direction:column;gap:9px}
+.pill{display:inline-block;background:#f0e3cb;color:#673629;border-radius:20px;padding:5px 9px;font-size:12px;align-self:flex-start}
+.card h3{margin:3px 0;color:var(--wine);font-size:22px}.card p{line-height:1.75;margin:0;font-size:14px}
+button{margin-top:auto;align-self:flex-start;border:0;border-radius:7px;background:var(--wine);color:white;padding:10px 14px;font-size:14px;cursor:pointer}
+button:hover{background:#7a3a2d}#details{display:none;background:#fff8e9;border:2px solid var(--gold);border-radius:13px;padding:22px;margin:26px 0;line-height:1.9}
+footer{text-align:center;padding:25px;color:var(--muted);border-top:1px solid #e3d1b4}
+@media(max-width:620px){.controls{grid-template-columns:1fr}.intro{align-items:start}}
+</style>
+</head>
+<body>
+<header>
+<div class="eyebrow">Tamil Heritage · Literature · Culture</div>
+<h1>தமிழ் இலக்கியக் கதாபாத்திரங்கள் மற்றும் ஆளுமைகள்</h1>
+<p>Tamil Literature Character Explorer</p>
+<p>காப்பியங்கள், சங்க இலக்கியம், பக்தி இலக்கியம், இதிகாசங்கள் மற்றும் தமிழ் நாவல்களில் இடம்பெறும் ஆளுமைகளைத் தேடி அறிந்துகொள்ளுங்கள்.</p>
+</header>
+<main>
+<div class="intro"><div><h2>இலக்கியக் களஞ்சியம்</h2><p>பெயர் அல்லது இலக்கியப் பிரிவைத் தேர்ந்தெடுத்து ஆராயுங்கள்.</p></div></div>
+<div class="controls">
+<input id="search" type="search" placeholder="பெயர், நூல் அல்லது ஆசிரியரைத் தேடுங்கள்..." aria-label="Search characters">
+<select id="category" aria-label="Filter by literature category"><option value="">அனைத்து இலக்கியப் பிரிவுகளும்</option></select>
+</div>
+<div id="count">தகவல்கள் ஏற்றப்படுகின்றன...</div>
+<div id="cards"></div>
+<section id="details">
+<h2 id="dname"></h2><p id="dcategory"></p><p id="dauthor"></p><p id="ddesc"></p>
+<button id="close">மூடு</button>
+</section>
+</main>
+<footer>மண் • மொழி • மரபு &nbsp; | &nbsp; Tamil Literature Character Explorer</footer>
+<script>
+let characters=[];
+const $=id=>document.getElementById(id);
+function textEl(tag,text){const e=document.createElement(tag);e.textContent=text;return e;}
+async function init(){
+ try{
+  const r=await fetch('/api/characters');if(!r.ok)throw Error('API error');
+  characters=await r.json();
+  const categories=[...new Set(characters.map(c=>c.category))];
+  categories.forEach(cat=>{const o=document.createElement('option');o.value=cat;o.textContent=cat;$('category').appendChild(o);});
+  render();
+ }catch(e){$('count').textContent='Java server இயங்குகிறதா என்று சரிபார்க்கவும்.';}
+}
+function render(){
+ const q=$('search').value.trim().toLocaleLowerCase();
+ const cat=$('category').value;
+ const found=characters.filter(c=>(!cat||c.category===cat)&&[c.name,c.category,c.author,c.description].some(v=>v.toLocaleLowerCase().includes(q)));
+ $('cards').replaceChildren();
+ $('count').textContent=`மொத்தம் ${characters.length} பதிவுகள் · ${found.length} பொருத்தங்கள்`;
+ if(!found.length){$('cards').append(textEl('p','பொருத்தமான பதிவுகள் கிடைக்கவில்லை.'));return;}
+ found.forEach(c=>{
+  const card=document.createElement('article');card.className='card';
+  const pill=textEl('span',c.category);pill.className='pill';
+  const title=textEl('h3',c.name);
+  const book=textEl('p','📚 இலக்கியம் / பிரிவு: '+c.category);
+  const author=textEl('p','✍️ ஆசிரியர் / மரபு: '+c.author);
+  const btn=textEl('button','மேலும் அறிக');btn.addEventListener('click',()=>show(c));
+  card.append(pill,title,book,author,btn);$('cards').append(card);
+ });
+}
+function show(c){
+ $('dname').textContent=c.name;
+ $('dcategory').textContent='இலக்கியம் / பிரிவு: '+c.category;
+ $('dauthor').textContent='ஆசிரியர் / மரபு: '+c.author;
+ $('ddesc').textContent='அறிமுகம்: '+c.description;
+ $('details').style.display='block';$('details').scrollIntoView({behavior:'smooth'});
+}
+function closeDetails(){$('details').style.display='none';}
+$('search').addEventListener('input',render);$('category').addEventListener('change',render);$('close').addEventListener('click',closeDetails);
+init();
+</script>
+</body>
+</html>
