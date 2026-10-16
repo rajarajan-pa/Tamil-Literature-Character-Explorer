@@ -64,7 +64,6 @@ function render(){
  const cat=$('category').value;
  const found=characters.filter(c=>(!cat||c.category===cat)&&[c.name,c.category,c.author,c.description].some(v=>v.toLocaleLowerCase().includes(q)));
  $('cards').replaceChildren();
- $('count').textContent=`மொத்தம் ${characters.length} பதிவுகள் · ${found.length} பொருத்தங்கள்`;
  if(!found.length){$('cards').append(textEl('p','பொருத்தமான பதிவுகள் கிடைக்கவில்லை.'));return;}
  found.forEach(c=>{
   const card=document.createElement('article');card.className='card';
