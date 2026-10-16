@@ -28,7 +28,10 @@ public class Main {
         String json = Files.readString(dataPath, StandardCharsets.UTF_8);
         String html = Files.readString(Path.of("index.html"), StandardCharsets.UTF_8);
 
-        HttpServer server = HttpServer.create(new InetSocketAddress("127.0.0.1", 8080), 0);
+        
+int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
+HttpServer server = HttpServer.create(new InetSocketAddress("0.0.0.0", port), 0);
+
         server.createContext("/api/characters", ex -> {
             if (!"GET".equals(ex.getRequestMethod())) {
                 ex.getResponseHeaders().set("Allow", "GET");
