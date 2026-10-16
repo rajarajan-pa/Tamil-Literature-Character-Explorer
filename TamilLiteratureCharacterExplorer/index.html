@@ -7,320 +7,508 @@
   <title>தமிழ் இலக்கியக் கதாபாத்திரங்கள்</title>
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
-      font-family: "Noto Sans Tamil", Latha, sans-serif;
+      font-family: "Noto Sans Tamil", "Latha", Arial, sans-serif;
       background: #f7f2e8;
-      color: #302319;
+      color: #30251e;
       line-height: 1.8;
     }
 
     header {
-      background: #4b291b;
-      color: #fff5e5;
+      background: #4b2a1c;
+      color: #fff8ec;
       text-align: center;
-      padding: 30px 15px;
-      border-bottom: 5px solid #bd8b45;
+      padding: 30px 16px;
+      border-bottom: 5px solid #c99a50;
     }
 
-    header h1 { margin: 0 0 8px; }
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(25px, 4vw, 38px);
+    }
+
+    header p {
+      margin: 0;
+      color: #f1ddc4;
+    }
 
     main {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: auto;
-      padding: 20px;
+      padding: 22px 16px 45px;
     }
 
     .controls {
       display: grid;
       grid-template-columns: 2fr 1fr;
       gap: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
     input, select {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #cdbba3;
-      border-radius: 8px;
-      font: inherit;
+      padding: 13px;
+      border: 1px solid #d4bea2;
+      border-radius: 9px;
       background: white;
+      font: inherit;
+      color: #30251e;
+    }
+
+    input:focus, select:focus {
+      outline: 2px solid #bd8745;
+    }
+
+    .summary {
+      background: #fff;
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin: 15px 0;
+      border: 1px solid #eadbc6;
     }
 
     #results {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
+      gap: 17px;
     }
 
     .card {
       background: #fffdf8;
       padding: 20px;
-      border: 1px solid #e0d2bd;
       border-radius: 12px;
+      border: 1px solid #e3d4bf;
+      box-shadow: 0 4px 12px #4b2a1c0d;
       overflow-wrap: anywhere;
     }
 
-    .card h2 { color: #7a3e20; margin-top: 5px; }
-
-    h3 {
-      color: #754322;
-      margin-bottom: 4px;
-      font-size: 1rem;
+    .card h2 {
+      margin: 5px 0;
+      color: #783e20;
+      font-size: 24px;
     }
 
     .category {
       display: inline-block;
-      background: #f0e3ce;
-      color: #673c20;
+      background: #efe1ca;
+      color: #6c3c1e;
       padding: 3px 10px;
       border-radius: 20px;
-      font-size: 13px;
+      font-size: 14px;
+    }
+
+    .meta {
+      color: #75685c;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .card h3 {
+      color: #6b3a20;
+      font-size: 17px;
+      margin: 18px 0 5px;
+      border-bottom: 1px solid #eadbc6;
+      padding-bottom: 4px;
+    }
+
+    .card p {
+      margin: 6px 0;
+    }
+
+    ul {
+      padding-left: 22px;
+      margin: 5px 0;
     }
 
     .reference {
       background: #f8f0e3;
-      border-left: 3px solid #bd8b45;
+      border-left: 3px solid #c99a50;
       padding: 10px;
-      margin: 10px 0;
+      margin: 9px 0;
+      border-radius: 5px;
     }
 
-    .muted { color: #6d6257; font-size: 14px; }
+    .muted {
+      color: #75685c;
+      font-size: 14px;
+    }
 
-    a { color: #88461e; overflow-wrap: anywhere; }
+    a {
+      color: #8b451f;
+      overflow-wrap: anywhere;
+    }
 
     .message {
       background: white;
-      padding: 20px;
+      padding: 24px;
       border-radius: 10px;
+      text-align: center;
       grid-column: 1 / -1;
     }
 
-    @media (max-width: 600px) {
-      .controls { grid-template-columns: 1fr; }
-      main { padding: 12px; }
+    .error {
+      color: #9a241b;
+    }
+
+    footer {
+      text-align: center;
+      padding: 22px;
+      color: #75685c;
+    }
+
+    @media (max-width: 650px) {
+      .controls {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 15px;
+      }
     }
   </style>
 </head>
 
 <body>
-<header>
-  <h1>தமிழ் இலக்கியக் கதாபாத்திரங்கள்</h1>
-  <p>தமிழ் இலக்கியம், கதாபாத்திரங்கள், உறவுகள் மற்றும் மூலநூல் குறிப்புகளை ஆராய்வோம்.</p>
-</header>
+  <header>
+    <h1>தமிழ் இலக்கியக் கதாபாத்திரங்கள்</h1>
+    <p>தமிழ் இலக்கியங்கள், கதாபாத்திரங்கள், உறவுகள் மற்றும் இலக்கியக் குறிப்புகளை ஆராய்வோம்.</p>
+  </header>
 
-<main>
-  <div class="controls">
-    <input id="search" type="search"
-      placeholder="பெயர், நூல், ஆசிரியர் அல்லது தகவலைத் தேடு...">
+  <main>
+    <div class="controls">
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="பெயர், நூல், ஆசிரியர் அல்லது விளக்கத்தைத் தேடுங்கள்..."
+        aria-label="கதாபாத்திரங்களைத் தேடுங்கள்"
+      >
 
-    <select id="category">
-      <option value="">அனைத்து இலக்கியங்களும்</option>
-    </select>
-  </div>
+      <select id="categoryFilter" aria-label="இலக்கியத்தைத் தேர்ந்தெடுக்கவும்">
+        <option value="">அனைத்து இலக்கியங்களும்</option>
+      </select>
+    </div>
 
-  <section id="results">
-    <p class="message">தகவல்கள் ஏற்றப்படுகின்றன...</p>
-  </section>
-</main>
+    <div class="summary" id="summary">
+      தகவல்கள் ஏற்றப்படுகின்றன...
+    </div>
 
-<script>
-  const results = document.getElementById("results");
-  const search = document.getElementById("search");
-  const category = document.getElementById("category");
+    <section id="results" aria-live="polite">
+      <div class="message">கதாபாத்திரங்கள் ஏற்றப்படுகின்றன...</div>
+    </section>
+  </main>
 
-  let characters = [];
+  <footer>
+    தமிழ் இலக்கியக் கதாபாத்திரத் தேடல் தொகுப்பு
+  </footer>
 
-  function esc(value) {
-    return String(value ?? "").replace(/[&<>"']/g, c => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    })[c]);
-  }
+  <script>
+    const results = document.getElementById("results");
+    const searchInput = document.getElementById("searchInput");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const summary = document.getElementById("summary");
 
-  function makeLinks(item) {
-    let links = [];
+    let characters = [];
 
-    if (item.wikipedia_url) {
-      links.push(
-        `<li><a href="${esc(item.wikipedia_url)}"
-        target="_blank" rel="noopener noreferrer">
-        Wikipedia</a></li>`
-      );
+    // பாதுகாப்பாக text காட்ட
+    function escapeHTML(value) {
+      if (value === null || value === undefined) return "";
+
+      return String(value).replace(/[&<>"']/g, function (char) {
+        const entities = {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        };
+
+        return entities[char];
+      });
     }
 
-    if (Array.isArray(item.other_sources)) {
-      item.other_sources.forEach((url, i) => {
-        if (url) {
-          links.push(
-            `<li><a href="${esc(url)}"
-            target="_blank" rel="noopener noreferrer">
-            கூடுதல் ஆதாரம் ${i + 1}</a></li>`
+    // null, array, object போன்றவற்றைக் கையாள
+    function displayValue(value) {
+      if (value === null || value === undefined || value === "") {
+        return "";
+      }
+
+      if (Array.isArray(value)) {
+        return value.map(displayValue).filter(Boolean).join(", ");
+      }
+
+      if (typeof value === "object") {
+        return Object.entries(value)
+          .map(([key, val]) =>
+            key.replaceAll("_", " ") + ": " + displayValue(val)
+          )
+          .filter(Boolean)
+          .join("; ");
+      }
+
+      return String(value);
+    }
+
+    function makeLink(url, label) {
+      if (typeof url !== "string" || !url.trim()) return "";
+
+      try {
+        const parsed = new URL(url);
+
+        if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
+          return "";
+        }
+
+        return `<li>
+          <a href="${escapeHTML(parsed.href)}"
+             target="_blank"
+             rel="noopener noreferrer">${escapeHTML(label)}</a>
+        </li>`;
+      } catch {
+        return "";
+      }
+    }
+
+    function renderRelationships(relationships) {
+      if (!relationships ||
+          (Array.isArray(relationships) && relationships.length === 0)) {
+        return "<p class='muted'>உறவுகள் பற்றிய தகவல் சேர்க்கப்படவில்லை.</p>";
+      }
+
+      if (Array.isArray(relationships)) {
+        return `<ul>${relationships.map(item =>
+          `<li>${escapeHTML(displayValue(item))}</li>`
+        ).join("")}</ul>`;
+      }
+
+      if (typeof relationships === "object") {
+        const entries = Object.entries(relationships);
+
+        if (!entries.length) {
+          return "<p class='muted'>உறவுகள் பற்றிய தகவல் இல்லை.</p>";
+        }
+
+        return `<ul>${entries.map(([key, value]) => `
+          <li>
+            <strong>${escapeHTML(key.replaceAll("_", " "))}:</strong>
+            ${escapeHTML(displayValue(value))}
+          </li>
+        `).join("")}</ul>`;
+      }
+
+      return `<p>${escapeHTML(displayValue(relationships))}</p>`;
+    }
+
+    function renderReferences(references) {
+      if (!Array.isArray(references) || references.length === 0) {
+        return "<p class='muted'>இலக்கிய மேற்கோள்கள் இன்னும் சேர்க்கப்படவில்லை.</p>";
+      }
+
+      return references.map(ref => {
+        if (!ref || typeof ref !== "object") {
+          return `<div class="reference">${escapeHTML(displayValue(ref))}</div>`;
+        }
+
+        return `
+          <div class="reference">
+            ${ref.section
+              ? `<strong>${escapeHTML(ref.section)}</strong>`
+              : ""}
+
+            ${ref.reference_status
+              ? `<p>${escapeHTML(ref.reference_status)}</p>`
+              : ""}
+
+            ${ref.canto
+              ? `<p>காதை: ${escapeHTML(ref.canto)}</p>`
+              : ""}
+
+            ${ref.verse
+              ? `<p>பாடல் / வரி: ${escapeHTML(ref.verse)}</p>`
+              : ""}
+
+            ${ref.quote
+              ? `<p>மூலவரி: ${escapeHTML(ref.quote)}</p>`
+              : ""}
+
+            ${ref.source_url
+              ? `<p>${makeLink(ref.source_url, "மூல ஆதாரத்தைப் பார்க்க")}</p>`
+              : ""}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderCharacter(character) {
+      const name = escapeHTML(character.name || "பெயர் குறிப்பிடப்படவில்லை");
+      const category = escapeHTML(character.category || "இலக்கியம் குறிப்பிடப்படவில்லை");
+      const author = escapeHTML(character.author || "தகவல் இல்லை");
+      const type = escapeHTML(character.character_type || "");
+      const description = escapeHTML(character.description || "");
+      const role = escapeHTML(character.role_in_story || "");
+      const status = escapeHTML(character.verification_status || "");
+
+      let sources = "";
+
+      if (character.wikipedia_url) {
+        sources += makeLink(character.wikipedia_url, "Wikipedia / தேடல் இணைப்பு");
+      }
+
+      if (Array.isArray(character.other_sources)) {
+        character.other_sources.forEach((url, index) => {
+          sources += makeLink(url, "கூடுதல் ஆதாரம் " + (index + 1));
+        });
+      }
+
+      return `
+        <article class="card">
+          <span class="category">${category}</span>
+
+          <h2>${name}</h2>
+
+          <div class="meta">
+            ஆசிரியர்: ${author}
+            ${type ? " · " + type : ""}
+          </div>
+
+          <h3>கதாபாத்திர அறிமுகம்</h3>
+          <p>${description || "விளக்கம் சேர்க்கப்படவில்லை."}</p>
+
+          <h3>கதையில் பங்கு</h3>
+          <p>${role || "கதையில் பங்கு பற்றிய தகவல் சேர்க்கப்படவில்லை."}</p>
+
+          <h3>கதாபாத்திர உறவுகள்</h3>
+          ${renderRelationships(character.relationships)}
+
+          <h3>இலக்கிய மேற்கோள்கள்</h3>
+          ${renderReferences(character.literary_references)}
+
+          <h3>மேலும் படிக்க</h3>
+          ${sources
+            ? `<ul>${sources}</ul>`
+            : "<p class='muted'>வெளி ஆதார இணைப்புகள் சேர்க்கப்படவில்லை.</p>"}
+
+          <h3>சரிபார்ப்பு நிலை</h3>
+          <p class="muted">
+            ${status || "சரிபார்ப்பு நிலை குறிப்பிடப்படவில்லை."}
+          </p>
+        </article>
+      `;
+    }
+
+    function render() {
+      const term = searchInput.value.trim().toLocaleLowerCase("ta");
+      const selectedCategory = categoryFilter.value;
+
+      const filtered = characters.filter(character => {
+        const categoryMatches =
+          !selectedCategory || character.category === selectedCategory;
+
+        const searchableText = [
+          character.name,
+          character.category,
+          character.author,
+          character.character_type,
+          character.description,
+          character.role_in_story,
+          character.verification_status,
+          displayValue(character.relationships),
+          displayValue(character.literary_references)
+        ].filter(Boolean).join(" ").toLocaleLowerCase("ta");
+
+        return categoryMatches &&
+          (!term || searchableText.includes(term));
+      });
+
+      summary.textContent =
+        `மொத்தம் ${characters.length} கதாபாத்திரங்கள் · ` +
+        `${filtered.length} பொருத்தங்கள்`;
+
+      if (filtered.length === 0) {
+        results.innerHTML = `
+          <div class="message">
+            பொருத்தமான கதாபாத்திரம் கிடைக்கவில்லை.
+            வேறு பெயர் அல்லது நூலைத் தேடிப் பாருங்கள்.
+          </div>
+        `;
+        return;
+      }
+
+      results.innerHTML = filtered.map(renderCharacter).join("");
+    }
+
+    async function loadCharacters() {
+      try {
+        const response = await fetch("./characters.json", {
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            "characters.json கிடைக்கவில்லை. File பெயரையும் folder-ஐயும் சரிபார்க்கவும்."
           );
         }
-      });
-    }
 
-    return links.length
-      ? `<h3>வெளி ஆதாரங்கள்</h3><ul>${links.join("")}</ul>`
-      : "";
-  }
+        const data = await response.json();
 
-  function makeReferences(item) {
-    const refs = Array.isArray(item.literary_references)
-      ? item.literary_references : [];
+        // JSON நேரடியாக array ஆகவோ { "characters": [...] } ஆகவோ இருக்கலாம்
+        if (Array.isArray(data)) {
+          characters = data;
+        } else if (data && Array.isArray(data.characters)) {
+          characters = data.characters;
+        } else {
+          throw new Error(
+            "JSON வடிவம் தவறு. கதாபாத்திரங்கள் ஒரு array ஆக இருக்க வேண்டும்."
+          );
+        }
 
-    let html = refs.map(ref => `
-      <div class="reference">
-        <strong>${esc(ref.section || "இலக்கியக் குறிப்பு")}</strong>
-        ${ref.reference_status
-          ? `<p>${esc(ref.reference_status)}</p>` : ""}
-        ${ref.canto
-          ? `<p>காதை: ${esc(ref.canto)}</p>` : ""}
-        ${ref.verse
-          ? `<p>பாடல் / வரி: ${esc(ref.verse)}</p>` : ""}
-        ${ref.quote
-          ? `<p>மூலவரி: ${esc(ref.quote)}</p>` : ""}
-        ${ref.source_url
-          ? `<a href="${esc(ref.source_url)}"
-             target="_blank" rel="noopener noreferrer">
-             மூல ஆதாரம்</a>` : ""}
-      </div>
-    `).join("");
+        if (characters.length === 0) {
+          throw new Error("JSON file-ல் கதாபாத்திரப் பதிவுகள் இல்லை.");
+        }
 
-    if (!html) {
-      html = '<p class="muted">மேற்கோள் இன்னும் சேர்க்கப்படவில்லை.</p>';
-    }
+        const categories = [...new Set(
+          characters
+            .map(character => character.category)
+            .filter(Boolean)
+        )].sort((a, b) => a.localeCompare(b, "ta"));
 
-    return html;
-  }
+        categories.forEach(category => {
+          const option = document.createElement("option");
+          option.value = category;
+          option.textContent = category;
+          categoryFilter.appendChild(option);
+        });
 
-  function makeCard(item) {
-    let relationships = "";
+        render();
 
-    if (item.relationships &&
-        typeof item.relationships === "object") {
-      const rows = Object.entries(item.relationships).map(([key, value]) => {
-        const display = Array.isArray(value)
-          ? value.join(", ") : value;
+      } catch (error) {
+        summary.textContent = "தகவல்களை ஏற்ற முடியவில்லை.";
 
-        return `<li><strong>${esc(key.replaceAll("_", " "))}:</strong>
-          ${esc(display)}</li>`;
-      });
-
-      relationships = rows.length ? `<ul>${rows.join("")}</ul>` : "";
-    }
-
-    return `
-      <article class="card">
-        <span class="category">${esc(item.category)}</span>
-        <h2>${esc(item.name)}</h2>
-
-        <p class="muted">
-          ${item.author ? "ஆசிரியர்: " + esc(item.author) : ""}
-          ${item.character_type ? " · " + esc(item.character_type) : ""}
-        </p>
-
-        <p>${esc(item.description)}</p>
-
-        ${item.role_in_story ? `
-          <h3>கதையில் பங்கு</h3>
-          <p>${esc(item.role_in_story)}</p>` : ""}
-
-        ${relationships ? `
-          <h3>கதாபாத்திர உறவுகள்</h3>
-          ${relationships}` : ""}
-
-        <h3>இலக்கிய மேற்கோள்கள்</h3>
-        ${makeReferences(item)}
-
-        ${item.verification_status ? `
-          <h3>சரிபார்ப்பு நிலை</h3>
-          <p class="muted">${esc(item.verification_status)}</p>` : ""}
-
-        ${makeLinks(item)}
-      </article>
-    `;
-  }
-
-  function render() {
-    const term = search.value.trim().toLocaleLowerCase("ta");
-    const selected = category.value;
-
-    const filtered = characters.filter(item => {
-      const categoryMatch = !selected || item.category === selected;
-
-      const refs = Array.isArray(item.literary_references)
-        ? item.literary_references.flatMap(ref => [
-            ref.section, ref.reference_status,
-            ref.canto, ref.verse, ref.quote
-          ])
-        : [];
-
-      const searchable = [
-        item.name, item.category, item.author,
-        item.character_type, item.description,
-        item.role_in_story, item.verification_status, ...refs
-      ].filter(Boolean).join(" ").toLocaleLowerCase("ta");
-
-      return categoryMatch && searchable.includes(term);
-    });
-
-    results.innerHTML = filtered.length
-      ? filtered.map(makeCard).join("")
-      : '<p class="message">பொருத்தமான கதாபாத்திரம் கிடைக்கவில்லை.</p>';
-  }
-
-  async function loadData() {
-    try {
-      const response = await fetch("./characters.json", {
-        cache: "no-store"
-      });
-
-      if (!response.ok) {
-        throw new Error("characters.json file கிடைக்கவில்லை.");
+        results.innerHTML = `
+          <div class="message error">
+            <strong>JSON பிழை</strong>
+            <p>${escapeHTML(error.message)}</p>
+            <p>
+              index.html மற்றும் characters.json ஒரே folder-ல் உள்ளனவா
+              என்று சரிபார்க்கவும்.
+            </p>
+            <p>
+              JSON-ஐ file:// மூலம் நேரடியாகத் திறப்பதற்குப் பதிலாக
+              GitHub Pages, Render அல்லது local web server வழியாகத் திறக்கவும்.
+            </p>
+          </div>
+        `;
       }
-
-      const data = await response.json();
-
-      characters = Array.isArray(data)
-        ? data
-        : (Array.isArray(data.characters) ? data.characters : []);
-
-      if (!characters.length) {
-        throw new Error("JSON file-ல் பதிவுகள் இல்லை.");
-      }
-
-      const categories = [...new Set(
-        characters.map(item => item.category).filter(Boolean)
-      )].sort((a, b) => a.localeCompare(b, "ta"));
-
-      categories.forEach(name => {
-        const option = document.createElement("option");
-        option.value = name;
-        option.textContent = name;
-        category.appendChild(option);
-      });
-
-      render();
-    } catch (error) {
-      results.innerHTML = `
-        <p class="message">
-          தகவல்களை ஏற்ற முடியவில்லை: ${esc(error.message)}
-          <br>index.html மற்றும் characters.json சரியான இடத்தில் உள்ளனவா எனப் பார்க்கவும்.
-        </p>`;
     }
-  }
 
-  search.addEventListener("input", render);
-  category.addEventListener("change", render);
+    searchInput.addEventListener("input", render);
+    categoryFilter.addEventListener("change", render);
 
-  loadData();
-</script>
+    loadCharacters();
+  </script>
 </body>
 </html>
