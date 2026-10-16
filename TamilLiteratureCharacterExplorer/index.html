@@ -442,10 +442,10 @@
     }
 
     async function loadCharacters() {
-      try {
-        const response = await fetch("./characters.json", {
-          cache: "no-store"
-        });
+     try {
+    const response = await fetch("/api/characters", {
+        cache: "no-store"
+    });
 
         if (!response.ok) {
           throw new Error(
